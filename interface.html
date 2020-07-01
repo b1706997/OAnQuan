@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Game O An Quan</title>
+	<link rel="stylesheet" type="text/css" href="style.css">
+	<!-- <link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+	<link rel="stylesheet" type="text/css" href="themes/icon.css"> -->
+	<script src="jquery.min.js"></script>
+	<script src="jquery.easyui.min.js"></script>
+	<script src="square.js"></script>
+
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.css">
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.contextMenu.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery-contextmenu/2.7.1/jquery.ui.position.js"></script>
+<link href="https://stackpath.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css" rel="stylesheet" integrity="sha384-wvfXpqpZZVQGK6TAh5PVlGOfQNHSoD2xbE+QkPxCAFlNEevoEH3Sl0sibVcOQVnN" crossorigin="anonymous">
+
+
+	 <script type="text/javascript">
+		 // INIT
+		//  $(document).ready(function(){
+		// 	chess.display();
+		// 	var chess = new Chess('Son','Tran','khung','playerDiv');
+
+		// })
+		 function updateScore()
+		 {
+			$('#player1Score').html(chess.player1.score());
+			$('#player2Score').html(chess.player2.score());
+		 }
+   //      {
+   //      	var parent = document.getElementById(div_id);
+   //      	var div = $('<div>');
+   //      	div.css('background-color','red');
+   //      	div.css('height','15px');
+   //      	div.css('width','15px');
+   //      	div.css('margin','3px');
+
+   //      	$('#'+div_id).append(div);
+   //      }   
+   //      function createDan(div_id)
+   //      {
+			// var parent = document.getElementById(div_id);
+   //      	var div = $("<p>");
+   //      	div.addClass("tutorial");
+   //      	div.css('background-color','blue');
+   //      	div.css('height','10px');
+   //      	div.css('width','10px');
+   //      	div.css('margin','3px');
+   //      	$('#'+div_id).append(div);
+   // 			// $(div_id).append('dan');
+   //      }
+   //      function generateBanCo(arr)
+   //      {
+   //      	$.each(arr[0],function(key,value){
+
+   //      	})
+   //      }
+	 	$(function() {
+        $.contextMenu({
+            selector: '.o', 
+            trigger:'left',
+            reposition:false,
+            items: {
+                left:{
+					name:'left',
+					icon:'fa-arrow-left',
+                	callback: function(itemKey, opt, e){
+						console.log("Clicked on " + itemKey + " on element " + opt.$trigger[0].id);
+						var square = chess.findSquareId(opt.$trigger[0].id);
+						chess.move(square.x,square.y,false,false);
+						// chess.move(1,1,false,1);
+						chess.update();
+						$('#currentTurn').html(chess.currentPlayerMove().name);
+						$('#'+opt.$trigger[0].id).css('filter','');
+			            return true;
+			        }       
+                },
+                right:{
+					name:'right',
+					icon:'fa-arrow-right',
+                	callback: function(itemKey, opt, e){
+						console.log("Clicked on " + itemKey + " on element " + opt.$trigger[0].id);
+						var square = chess.findSquareId(opt.$trigger[0].id);
+						chess.move(square.x,square.y,true,false);
+						chess.update();
+						$('#currentTurn').html(chess.currentPlayerMove().name);
+						$('#'+opt.$trigger[0].id).css('filter','');
+			            return true;             
+			        }
+				},
+				"quit": {name: "Quit", icon: function(){
+                    return 'context-menu-icon context-menu-icon-quit';
+                	},
+                	callback:function(itemKey,opt,e)
+                	{
+						$('#'+opt.$trigger[0].id).css('filter','');
+                		return true;
+                	}
+            	},
+            },
+        	
+        });
+
+        $('.o').on('click', function(e){
+			$(this).css('filter','brightness(85%)');
+		})
+		$('document').on()
+    });
+	 </script>
+	 <style>
+		#playerDiv .containDiv {
+			background-color:black;
+			height: 200px;
+			width: 200px;
+			margin-left:10%;
+		}
+		.o:hover {
+			cursor:pointer;
+			filter:brightness(85%);
+		}
+
+	 </style>
+</head>
+<body>
+	<div id="mm" class="easyui-menu" style="width:120px;">
+		<div onclick="javascript:alert('new')">New</div>
+		<div>
+			<span>Open</span>
+			<div style="width:150px;">
+				<div><b>Word</b></div>
+				<div>Excel</div>
+				<div>PowerPoint</div>
+			</div>
+		</div>
+		<div icon="icon-save">Save</div>
+		<div class="menu-sep"></div>
+		<div>Exit</div>
+	</div>
+	
+	<div id="khung">
+		<div data-x='0' data-y='0' id="quan_left">quan_l</div>
+		<div data-x='1' data-y='0' class='o' id="o1">1</div>
+		<div data-x='1' data-y='1' class='o' id="o2">2</div>
+		<div data-x='1' data-y='2' class='o'  id="o3">3</div>
+		<div data-x='1' data-y='3' class='o'  id="o4">4</div>
+		<div data-x='1' data-y='4' class='o'  id="o5">5</div>
+		<div data-x='0' data-y='1' class='o'  id="o6">6</div>
+		<div data-x='0' data-y='2' class='o'  id="o7">7</div>
+		<div data-x='0' data-y='3' class='o'  id="o8">8</div>
+		<div data-x='0' data-y='4' class='o'  id="o9">9</div>
+		<div data-x='0' data-y='5' class='o'  id="o10">10</div>
+		<div data-x='0' data-y='6' id="quan_right">quan_r</div>
+	</div>
+
+
+	<div id='playerDiv'>
+		<h2>Lượt của người chơi: <a href='javascript:void()' class='playerTurn'></a></h2>
+		<div class='player1Div'>
+			<h3 class='playername' style='display:inline-block'></h3>
+			<a class='score' style='display:inline-block'></a>
+			<div class='containDiv' ></div>
+		</div>
+		<div class='player2Div'>
+			<h3 class='playername' style='display:inline-block'></h3>
+			<a class='score' style='display:inline-block'></a>
+			<div class='containDiv'></div>
+		</div>
+	</div>
+
+<script>
+	var chess = new Chess('Son','Tran','khung','playerDiv');
+	chess.display();
+
+</script>
+</body>
+</html>

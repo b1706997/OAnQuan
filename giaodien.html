@@ -1,0 +1,118 @@
+<!DOCTYPE html>
+<html>
+	<head>
+		<link rel="stylesheet" type="text/css" href="themes/default/easyui.css">
+		<link rel="stylesheet" type="text/css" href="themes/icon.css">
+	
+		<script src='jquery.min.js'></script>
+		<script src='jquery.easyui.min.js'></script>
+
+		<script type="text/javascript">
+			$(function(){
+				$(document).bind('contextmenu',function(e){
+					$('#mm').menu('show', {
+						left: e.pageX,
+						top: e.pageY
+					});
+					return false;
+				});
+			});
+			function showmenu(){
+				$('#mm').menu('show', {
+					left: 200,
+					top: 100
+				});
+			}
+		</script>
+	</head>
+<body>
+
+	<div id="mm" class="easyui-menu" style="width:120px;">
+		<div onclick="javascript:alert('new')">New</div>
+		<div>
+			<span>Open</span>
+			<div style="width:150px;">
+				<div><b>Word</b></div>
+				<div>Excel</div>
+				<div>PowerPoint</div>
+			</div>
+		</div>
+		<div icon="icon-save">Save</div>
+		<div class="menu-sep"></div>
+		<div>Exit</div>
+	</div>
+
+	<div style='background-color: red;' onclick='showmenu()'>A</div>
+
+	<canvas id="myCanvas" width="850" height="250" style="border:1px solid white;">
+	Your browser does not support the HTML5 canvas tag.</canvas>
+
+
+	
+	<div>
+
+
+	</div>
+
+	<script>
+		var c = document.getElementById("myCanvas");
+		var ctx = c.getContext("2d");
+
+		// Create gradient
+		var grd = ctx.createLinearGradient(0,0,200,0);
+		grd.addColorStop(0,"pink");
+
+		// Fill with gradient
+		ctx.fillStyle = grd;
+		ctx.fillRect(125,0,600,250);
+
+		// Create lines
+		ctx.moveTo(125,0);
+		ctx.lineTo(125,250);
+		ctx.moveTo(245,0);
+		ctx.lineTo(245,250);
+		ctx.moveTo(365,0);
+		ctx.lineTo(365,250);
+		ctx.moveTo(485,0);
+		ctx.lineTo(485,250);
+		ctx.moveTo(605,0);
+		ctx.lineTo(605,250);
+		ctx.moveTo(725,0);
+		ctx.lineTo(725,250);
+		// Duong nam ngang
+		ctx.moveTo(125,0);
+		ctx.lineTo(725,0);
+		ctx.moveTo(125,125);
+		ctx.lineTo(725,125);
+		ctx.moveTo(125,250);
+		ctx.lineTo(725,250);
+		ctx.stroke();
+		// Hinh ban nguyet
+		function Right() {
+			var startingAngle = -1.58;
+			var endingAngle = -1.58 + Math.PI;
+			var x=125;
+			var y=125;
+			var r=125;
+			ctx.beginPath();
+			ctx.arc(x,y,r,startingAngle,endingAngle,true);
+			ctx.closePath();
+			ctx.stroke()
+		}
+		function left() {
+			var startingAngle = -1.58;
+			var endingAngle = -1.58 + Math.PI;
+			var x=725;
+			var y=125;
+			var r=125;
+			ctx.beginPath();
+			ctx.arc(x,y,r,startingAngle,endingAngle,false);
+			ctx.closePath();
+			ctx.stroke();
+		}
+		Right();
+		left();
+	</script>
+
+</body>
+</html>
