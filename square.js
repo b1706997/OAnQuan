@@ -273,8 +273,8 @@ function Chess(name1, name2,frame_id,playerdiv) {
 		var current = {x:x,y:y,d:d}; // doi tuong current chua 3 thuoc tinh: x,y la toa do ban co; d la huong di chuyen
 		var result;
 		for (var i = 0; i < this.banco[x][y].array.length; i++) {
-			this.banco[current.x][current.y].add();
 			current = this.next(current);
+			this.banco[current.x][current.y].add();
 		}
 		this.banco[x][y].empty(); //Lam trong o duoc chon
 		// wining check
