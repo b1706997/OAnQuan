@@ -238,7 +238,7 @@ function Chess(name1, name2,frame_id,playerdiv) {
 				if(this.banco[0][i].containChess())
 				{	
 					for(var j=0;j<this.banco[0][i].length;j++)
-						this.player1.array.push(this.banco[0][i])	;
+						this.player1.array.push(this.banco[0][i]);
 				}
 			}
 			// get all remain quan for player2
@@ -247,7 +247,7 @@ function Chess(name1, name2,frame_id,playerdiv) {
 				if(this.banco[1][i].containChess())
 				{	
 					for(var j=0;j<this.banco[1][i].length;j++)
-						this.player2.array.push(this.banco[1][i])	;
+						this.player2.array.push(this.banco[1][i]);
 				}
 			}
 			// find which player have higher score
@@ -271,7 +271,6 @@ function Chess(name1, name2,frame_id,playerdiv) {
 		else
 			currentPlayer = this.player2;
 		var current = {x:x,y:y,d:d}; // doi tuong current chua 3 thuoc tinh: x,y la toa do ban co; d la huong di chuyen
-		var result;
 		for (var i = 0; i < this.banco[x][y].array.length; i++) {
 			current = this.next(current);
 			this.banco[current.x][current.y].add();
@@ -292,16 +291,8 @@ function Chess(name1, name2,frame_id,playerdiv) {
 			nextnext = this.banco[nextnext.x][nextnext.y];
 			if(nextnext.containChess())
 			{
-				// an
 				currentPlayer.an(nextnext);
-				// for(var i=0;i<nextnext.array.length;i++)
-				// {
-				// 	// currentPlayer.array.push(nextnext.array[i]);
-				// }
-				// nextnext.empty();
 			}
-			// changing controlment of the chess
-			
 		}
 		this.controllSet();
 		if((x==0 && y==0) || (x==0&&y==6))
