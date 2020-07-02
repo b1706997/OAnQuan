@@ -293,8 +293,8 @@ function Chess(name1, name2,frame_id,playerdiv) {
 			{
 				currentPlayer.an(nextnext);
 			}
+			this.controllSet();
 		}
-		this.controllSet();
 		if((x==0 && y==0) || (x==0&&y==6))
 		{
 			this.checkWin();
