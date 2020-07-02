@@ -131,9 +131,10 @@ function Square(type = null) {
 	return this;
 }
 
-function Player(name) {
+function Player(name,playerDiv) {
 	this.name = name;
 	this.array=[];
+	this.div = playerDiv;
 	this.score = function()
 	{
 		var totalScore=0;
@@ -143,18 +144,26 @@ function Player(name) {
 		}
 		return totalScore;
 	}
+	this.an = function(square)
+	{
+		for(var i=0;i<square.array.length;i++)
+			this.array.push(square.array[i]);
+		
+		square.empty();
+	}
 }
-
+// function State(chess) {
+// 	this.chess = ;
+// }
 function Chess(name1, name2,frame_id,playerdiv) {
 	this.banco = [
 		[new Square(true),new Square(),new Square(),new Square(),new Square(),new Square(),new Square(true)],
 		[new Square(),new Square(),new Square(),new Square(),new Square()]
 	];
 	// this.currentPlayer = this.player1;
-	this.player1 = new Player(name1);
-	this.player2 = new Player(name2);
+	this.player1 = new Player(name1,playerDiv);
+	this.player2 = new Player(name2,playerDiv);
 	this.currentTurn=1;
-	this.state = [];
 	this.init = function()
 	{
 		// assign id to Square
@@ -171,6 +180,15 @@ function Chess(name1, name2,frame_id,playerdiv) {
 		// init score
 		this.setScore();
 		this.setCurrentMove();
+
+		for(var i = 1 ; i<=5 ; i ++)
+		{
+			$('#'+this.banco[0][i].id).attr('class','o');
+		}
+		for(var i = 0 ; i<5 ; i ++)
+		{
+			$('#'+this.banco[1][i].id).attr('class','');
+		}
 	}
 	this.setCurrentMove = function()
 	{
@@ -199,7 +217,51 @@ function Chess(name1, name2,frame_id,playerdiv) {
 			}
 		}
 	}
-	
+	this.reset = function()
+	{
+		this.empty();
+		var a = new Chess(this.player1.name,this.player2.name,frame_id,playerdiv);
+		this.banco = a.banco;
+		this.player1 = a.player1;
+		this.player2 = a.player2;
+		this.currentTurn=a.currentTurn;
+		this.display();
+	}
+	this.checkWin = function()
+	{
+		if(!this.banco[0][0].containChess() && !this.banco[0][6].containChess())
+		{
+			// find winning player
+			// get all remain quan for player1
+			for(var i = 1;i<=6;i++)
+			{
+				if(this.banco[0][i].containChess())
+				{	
+					for(var j=0;j<this.banco[0][i].length;j++)
+						this.player1.array.push(this.banco[0][i])	;
+				}
+			}
+			// get all remain quan for player2
+			for(var i = 0;i<=5;i++)
+			{
+				if(this.banco[1][i].containChess())
+				{	
+					for(var j=0;j<this.banco[1][i].length;j++)
+						this.player2.array.push(this.banco[1][i])	;
+				}
+			}
+			// find which player have higher score
+			if(this.player1.score()>this.player2.score())
+				var winner = this.player1;
+			else
+				var winner = this.player2;
+			var r = confirm("Game kết thúc, người chơi "+winner.name+" thắng");
+			if(r==true)
+				this.reset();
+		}
+		else
+			return false;
+	}
 	this.move = function(x, y, d,callback) {
 		var currentPlayer;
 		var player = this.currentTurn;
@@ -211,10 +273,12 @@ function Chess(name1, name2,frame_id,playerdiv) {
 		var current = {x:x,y:y,d:d}; // doi tuong current chua 3 thuoc tinh: x,y la toa do ban co; d la huong di chuyen
 		var result;
 		for (var i = 0; i < this.banco[x][y].array.length; i++) {
-			current = this.next(current);
 			this.banco[current.x][current.y].add();
+			current = this.next(current);
 		}
 		this.banco[x][y].empty(); //Lam trong o duoc chon
+		// wining check
+		
 		var next = this.next(current);
 		if(this.conluot(next.x,next.y,next.d))
 		{
@@ -229,18 +293,63 @@ function Chess(name1, name2,frame_id,playerdiv) {
 			if(nextnext.containChess())
 			{
 				// an
-				for(var i=0;i<nextnext.array.length;i++)
-				{
-					currentPlayer.array.push(nextnext.array[i]);
-				}
-				nextnext.empty();
+				currentPlayer.an(nextnext);
+				// for(var i=0;i<nextnext.array.length;i++)
+				// {
+				// 	// currentPlayer.array.push(nextnext.array[i]);
+				// }
+				// nextnext.empty();
 			}
-
-			if(this.currentTurn==1)
-				this.currentTurn=2;
-			else
-				this.currentTurn=1;
+			// changing controlment of the chess
+			
 		}
+		this.controllSet();
+		if((x==0 && y==0) || (x==0&&y==6))
+		{
+			this.checkWin();
+		}
+		this.checkSide();
+	}
+	this.checkSide = function()
+	{
+		
+	}
+	this.controllSet = function ()
+	{
+		// enable side control for the current player turn
+		if(this.currentTurn==1)
+		{
+			this.currentTurn=2;
+			// disable player choose
+			for(var i = 1 ; i<=5 ; i ++)
+			{
+				$('#'+this.banco[0][i].id).attr('class','');
+			}
+			for(var i = 0 ; i<5 ; i ++)
+			{
+				$('#'+this.banco[1][i].id).attr('class','o');
+			}
+		}
+		else
+		{
+			this.currentTurn=1;
+			for(var i = 0 ; i<=4 ; i ++)
+			{
+				$('#'+this.banco[1][i].id).attr('class','');
+			}
+			for(var i = 1 ; i<=5 ; i ++)
+			{
+				$('#'+this.banco[0][i].id).attr('class','o');
+			}
+		}
+
+		// disable control for the Square that doesnt have chess in it
+		for(var i=0;i<this.banco.length;i++)
+			for(var j =0 ; j<this.banco[i].length;j++)
+				if(!this.banco[i][j].containChess())
+				{
+					$('#'+this.banco[i][j].id).attr('class','');
+				}
 	}
 	this.conluot = function(x,y,d) // return true false
 	{
@@ -309,6 +418,7 @@ function Chess(name1, name2,frame_id,playerdiv) {
 		this.setCurrentMove();
 		this.setScore();
 	}
+
 
 	return this;
 

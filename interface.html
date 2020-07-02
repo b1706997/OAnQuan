@@ -103,9 +103,14 @@
         });
 
         $('.o').on('click', function(e){
-			$(this).css('filter','brightness(85%)');
-		})
-		$('document').on()
+				$(this).css('filter','brightness(85%)');
+		});
+		// $(document).on('click',function(event){
+		// 	$target = $(event.target);
+		// 	$('#khung div').each(function(){
+		// 		$(this).css('filter','');
+		// 	})
+		// })
     });
 	 </script>
 	 <style>
@@ -119,6 +124,7 @@
 			cursor:pointer;
 			filter:brightness(85%);
 		}
+		
 
 	 </style>
 </head>
@@ -139,7 +145,7 @@
 	</div>
 	
 	<div id="khung">
-		<div data-x='0' data-y='0' id="quan_left">quan_l</div>
+		<div data-x='0' data-y='0' id="quan_left"></div>
 		<div data-x='1' data-y='0' class='o' id="o1">1</div>
 		<div data-x='1' data-y='1' class='o' id="o2">2</div>
 		<div data-x='1' data-y='2' class='o'  id="o3">3</div>
@@ -150,7 +156,7 @@
 		<div data-x='0' data-y='3' class='o'  id="o8">8</div>
 		<div data-x='0' data-y='4' class='o'  id="o9">9</div>
 		<div data-x='0' data-y='5' class='o'  id="o10">10</div>
-		<div data-x='0' data-y='6' id="quan_right">quan_r</div>
+		<div data-x='0' data-y='6' id="quan_right"></div>
 	</div>
 
 
